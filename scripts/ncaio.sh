@@ -50,8 +50,8 @@ fi
 
 # Install jq if not already installed
 if ! command_exists jq; then
-  pvesh apt update
-  pvesh apt install -y jq
+  pvesh exec -- node "$(hostname)" -- bash -c "apt update"  
+  pvesh exec -- node "$(hostname)" -- bash -c "apt install -y jq"
 fi
 
 # Get available storage list
