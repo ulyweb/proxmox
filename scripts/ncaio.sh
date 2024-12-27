@@ -48,11 +48,23 @@ if [ -z "$MAC_ADDRESS" ]; then
   MAC_ADDRESS=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')
 fi
 
-# Create LXC container with corrected net0 format
+# Get available storage list
+STORAGE_LIST=$(pvesh get /nodes/$(hostname)/storage --output-format json | jq -r '.data | keys[]')
+
+# Prompt for storage selection
+echo "Available storage options:"
+select STORAGE in $STORAGE_LIST; do
+  if [[ -n "$STORAGE" ]]; then
+    break
+  fi
+  echo "Invalid selection. Please try again."
+done
+
+# Create LXC container with selected storage
 pct create $LXC_ID $LXC_NAME \
   -hostname $LXC_NAME \
   -ostype ubuntu \
-  -storage local-lvm \
+  -storage "$STORAGE" \
   -net0 name=eth0,bridge=vmbr0,gw=$GATEWAY_IP,hwaddr=$MAC_ADDRESS,ip=dhcp \
   -onboot 1 \
   -unprivileged 0
