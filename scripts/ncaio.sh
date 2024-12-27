@@ -36,13 +36,19 @@ read -p "Enter your domain name (e.g., example.com): " HOST_DOMAIN
 # Prompt for timezone
 read -p "Enter your desired timezone (e.g., America/Los_Angeles): " TZ
 
-# Prompt for gateway IP
-read -p "Enter your gateway IP address: " GATEWAY_IP
+# Prompt for gateway IP with default value
+read -p "Enter your gateway IP address (leave blank for default): " GATEWAY_IP
+if [ -z "$GATEWAY_IP" ]; then
+  GATEWAY_IP=$(ip route show default | awk '/default/ {print $3}')
+fi
 
-# Prompt for MAC address
-read -p "Enter the desired MAC address for the container: " MAC_ADDRESS
+# Prompt for MAC address with default value
+read -p "Enter the desired MAC address for the container (leave blank for default): " MAC_ADDRESS
+if [ -z "$MAC_ADDRESS" ]; then
+  MAC_ADDRESS=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')
+fi
 
-# Create LXC container
+# Create LXC container with corrected net0 format
 pct create $LXC_ID $LXC_NAME \
   -hostname $LXC_NAME \
   -ostype ubuntu \
@@ -54,14 +60,17 @@ pct create $LXC_ID $LXC_NAME \
 # Start the container
 pct start $LXC_ID
 
-# Wait for the container to start
-sleep 10
+# Wait for the container to fully start
+sleep 30
 
 # Update and upgrade packages within the container
 pct exec $LXC_ID -- bash -c "apt update && apt upgrade -y"
 
+# Install lsb-release package
+pct exec $LXC_ID -- bash -c "apt install -y lsb-release"
+
 # Install Docker and Docker Compose
-pct exec $LXC_ID -- bash -c "apt install -y apt-transport-https ca-certificates curl gnupg lsb-release"
+pct exec $LXC_ID -- bash -c "apt install -y apt-transport-https ca-certificates curl gnupg"
 pct exec $LXC_ID -- bash -c "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
 pct exec $LXC_ID -- bash -c "echo \"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null"
@@ -104,7 +113,6 @@ services:
       - TRUSTED_PROXIES=10.17.76.78 # Add your Nginx Proxy Manager IP here
 
 EOF
-
 
 # Copy docker-compose.yml to the container
 pct push $LXC_ID /tmp/docker-compose.yml /opt/nextcloud-aio/
