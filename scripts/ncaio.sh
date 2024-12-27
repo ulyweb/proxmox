@@ -50,12 +50,12 @@ fi
 
 # Install jq if not already installed
 if ! command_exists jq; then
-  pvesh exec -- node "$(hostname)" -- bash -c "apt update"  
-  pvesh exec -- node "$(hostname)" -- bash -c "apt install -y jq"
+  bash -c "pvesh apt update"
+  bash -c "pvesh apt install -y jq"
 fi
 
 # Get available storage list
-STORAGE_LIST=$(pvesh get /nodes/$(hostname)/storage --output-format json | jq -r '.data | keys[]')
+STORAGE_LIST=$(bash -c "pvesh get /nodes/$(hostname)/storage --output-format json | jq -r '.data | keys[]'")
 
 # Prompt for storage selection
 echo "Available storage options:"
