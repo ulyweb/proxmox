@@ -46,11 +46,11 @@ services:
       - APACHE_PORT=11000
       - APACHE_IP_BINDING=0.0.0.0
       - NEXTCLOUD_MEMORY_LIMIT=4096M # Adjust if needed based on monitoring
-      - NEXTCLOUD_DATADIR=/mnt/nextcloud # Optional
+      - NEXTCLOUD_DATADIR=/mnt/nc_data # Optional
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-      - /mnt/nextcloud:/mnt/ncdata # Optional
+      - /mnt/nc_data:/mnt/nc_data # Optional
 
 volumes:
   nextcloud_aio_mastercontainer:
