@@ -3,6 +3,7 @@
 >### NUCAiO-VM
 >>#### ___***compose.yaml for Nextcloud AIO behind Nginx Proxy Manager.***___
 
+#
 ````
 services:
   nextcloud-aio-mastercontainer:
@@ -25,7 +26,8 @@ volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
 ````
->[!TIP]
+#
+>[!WARNING]
 >### Wait until installation is finished, because you'll get some errors.
 >>#### ___***To fix them, use the command below what will apply to the error.***___
 
@@ -47,7 +49,7 @@ docker exec --user www-data nextcloud-aio-nextcloud php occ config:system:set au
 docker exec --user www-data nextcloud-aio-nextcloud php occ config:system:set auth.bruteforce.protection.enabled --type=boolean --value=true #To Re-enable Brute-Force Protection (Recommended):
 docker restart nextcloud-aio-nextcloud
 ````
-
+#
 >[!TIP]
 >### *This will fixed the error messages.*
 
@@ -64,16 +66,17 @@ vi config.php
 ````
 cat /var/www/html/config/config.php | grep -E "trusted_proxies|overwriteprotocol"
 ````
->[!TIP]
+#
+>[!IMPORTANT]
 >### *To get your current IP Address.*
-
 ````
 ip a | grep "scope global" | head -1 | awk '{print $2}' | sed 's|/.*||'
 ````
-
->[!TIP]
->### *Start fresh again by removing all of them!.*
-
+#
+>[!CAUTION]
+>## *Start fresh again by removing all of them!.*
+> **Proceed with extreme caution!**
+>> ***This action is irreversible.***
 ````
 docker stop $(docker ps -a -q -f name=nextcloud)
 sudo docker ps --format {{.Names}}
