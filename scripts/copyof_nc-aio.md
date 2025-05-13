@@ -214,4 +214,17 @@ ip a | grep "scope global" | head -1 | awk '{print $2}' | sed 's|/.*||'
     sudo docker image prune -a -f
     ```
 
+10. **One command to do it all:**
+    ```bash
+    docker stop $(docker ps -a -q -f name=nextcloud)
+    sudo docker ps --format {{.Names}}
+    sudo docker ps --filter "status=exited"
+    sudo docker container prune -f 
+    sudo docker network rm nextcloud-aio
+    sudo docker volume ls --filter "dangling=true"
+    sudo docker volume prune -f --filter all=1 
+    sudo docker volume ls --format {{.Name}}
+    sudo docker image prune -a -f
+    ```
+
 ---
