@@ -13,7 +13,21 @@ sudo mkdir /mnt/nc_data
 
 ````
 sudo mount 10.17.76.70:/data /mnt/nc_data
+````
+
+Edit `/etc/fstab` in the VM:
+
+Open the `/etc/fstab` file with nano as root:
+````
 sudo nano /etc/fstab
+````
+
+Add the NFS entry:
+````
+PROXMOX_HOST_IP:/data  /mnt/nc_data  nfs  defaults,_netdev,bg  0  0
+````
+
+````
 sudo umount /mnt/nc_data
 sudo mount -a
 sudo systemctl daemon-reload
