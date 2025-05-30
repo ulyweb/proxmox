@@ -2,23 +2,6 @@
 > # Here's the updated full guide:
 > ## ---
 
-**1\. Prepare Proxmox VE Installation Media**
-
-First, you'll need to download the Proxmox VE ISO image and create a bootable USB drive.
-
-* **Download Proxmox VE:**  
-  1. Go to the [Proxmox Virtual Environment download page](https://www.proxmox.com/en/downloads/category/iso-images-pve).  
-  2. Download the latest Proxmox VE ISO image.  
-* **Create a Bootable USB Drive:**  
-  * You can use tools like [Balena Etcher](https://www.balena.io/etcher/) (available for Windows, macOS, and Linux) or [Rufus](https://rufus.ie/) (Windows only) to create a bootable USB drive from the downloaded ISO image. \<\!-- end list \--\>  
-  1. Insert your USB drive into your computer (ensure it's at least 4GB and that you don't mind it being erased).  
-  2. Open Balena Etcher or Rufus.  
-  3. Select the downloaded Proxmox VE ISO file.  
-  4. Select your USB drive.  
-  5. Click "Flash\!" or "Start" to create the bootable drive.
-
-## ---
-
 **2\. Install Proxmox VE on HP Elitebook 840 G1**
 
 Now, you'll install Proxmox VE onto your laptop.
