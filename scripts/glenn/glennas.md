@@ -149,8 +149,8 @@ Nextcloud AIO runs within Docker. You'll set this up inside a Virtual Machine (V
   1. Log into your new Linux VM via console or SSH.  
   2. **Set Static IP:**  
      * Identify your network interface: ip a (e.g., ens18).  
-     * For Netplan (Ubuntu): Edit /etc/netplan/00-installer-config.yaml (or similar):  
-       YAML  
+     * For Netplan (Ubuntu): Edit /etc/netplan/00-installer-config.yaml (or similar):
+````YAML  
        network:  
          ethernets:  
            ens18: \# Replace with your interface name  
@@ -159,15 +159,16 @@ Nextcloud AIO runs within Docker. You'll set this up inside a Virtual Machine (V
              gateway4: 192.168.1.1  
              nameservers:  
                addresses: \[192.168.1.1, 1.1.1.1\]  
-         version: 2  
+         version: 2
+````  
        Apply: sudo netplan apply.  
   3. **Install QEMU Guest Agent:**  
-     Bash  
+````     Bash  
      sudo apt update  
      sudo apt install qemu-guest-agent \-y  
      sudo systemctl start qemu-guest-agent  
      sudo systemctl enable qemu-guest-agent
-
+````
   4. **Install Docker:**  
      Bash  
      sudo apt update
@@ -179,22 +180,24 @@ $(lsb\_release \-cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list4 \> 
 * **Install Nextcloud All-in-One using Docker Compose:**  
   1. Still in the Nextcloud AIO VM's terminal:  
   2. Create a directory for your Nextcloud AIO configuration:  
-     Bash  
+````Bash  
      mkdir \-p /opt/nextcloud\_aio  
      cd /opt/nextcloud\_aio
-
+````
   3. **Important for Data Directory:** Your docker-compose.yml includes an optional data directory mapping: \- /mnt/nc\_data:/mnt/nc\_data. If you intend to use this for storing Nextcloud data outside the default Docker volume location, you **must create this directory on the VM first**:  
-     Bash  
-     sudo mkdir \-p /mnt/nc\_data  
+     ````Bash  
+     sudo mkdir \-p /mnt/nc\_data
+     ````  
      \# Optionally, set permissions if needed, though Docker often handles this.  
      \# sudo chown \-R your\_user:your\_group /mnt/nc\_data \# (Less relevant if managed by root/Docker)  
      If you *don't* want to use /mnt/nc\_data and prefer Docker to manage the data within its own volume system (simpler, but data is less directly accessible), you can remove the lines \- NEXTCLOUD\_DATADIR=/mnt/nc\_data and \- /mnt/nc\_data:/mnt/nc\_data from the docker-compose.yml below.  
   4. Create the docker-compose.yml file:  
-     Bash  
+     ````Bash  
      nano docker-compose.yml
+     ````
 
-  5. Paste your provided YAML content:  
-     YAML  
+  5. Paste your provided YAML content:
+````YAML  
      services:  
        nextcloud-aio-mastercontainer:  
          image: ghcr.io/nextcloud-releases/all-in-one:latest  
@@ -215,13 +218,14 @@ $(lsb\_release \-cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list4 \> 
      volumes:  
        nextcloud\_aio\_mastercontainer:  
          name: nextcloud\_aio\_mastercontainer
-
+````
   6. Save the file (Ctrl+X, Y, Enter).  
-  7. Start Nextcloud AIO:  
-     Bash  
-     sudo docker compose up \-d
+  7. Start Nextcloud AIO:
+     ````Bash  
+     sudo docker compose up -d
+     ````
 
-  8. **Initial AIO Setup:** Access the Nextcloud AIO setup interface by going to https://192.168.1.221:8080 in your browser. Follow the on-screen instructions. You will be asked to set your domain; enter glennas.duckdns.org. The AIO interface will guide you through installing Nextcloud and its components (database, Talk, etc.).
+  9. **Initial AIO Setup:** Access the Nextcloud AIO setup interface by going to https://192.168.1.221:8080 in your browser. Follow the on-screen instructions. You will be asked to set your domain; enter glennas.duckdns.org. The AIO interface will guide you through installing Nextcloud and its components (database, Talk, etc.).
 
 ## ---
 
@@ -247,7 +251,8 @@ LXC containers are more lightweight than VMs.
   2. Update: apt update && apt upgrade \-y  
   3. Install Docker and Docker Compose (as in step 5 for the VM, adapting if necessary for the container's OS version).
 
-\# Install Docker  
+\# Install Docker
+````
 apt install \-y apt-transport-https ca-certificates curl gnupg lsb-release  
 curl \-fsSL https://download.docker.com/linux/$(.6 /etc/os-release && echo "$ID")/gpg | gpg \--dearmor \-o /usr/share/keyrings/docker-archive-keyring.gpg  
 echo  
@@ -257,18 +262,19 @@ apt update
 apt install \-y docker-ce9 docker-ce-cli containerd.io  
 systemctl start docker  
 systemctl enable docker
-
-    \# Install Docker Compose  
-    apt install \-y docker-compose-plugin  
-    \`\`\`  
+````
+\# Install Docker Compose
+````
+    apt install \-y docker-compose-plugin
+```` 
 4\.  Create NPM directory and \`docker-compose.yml\`:  
-    \`\`\`bash  
+    ````bash  
     mkdir /opt/npm  
     cd /opt/npm  
     nano docker-compose.yml  
-    \`\`\`  
+    ````  
 5\.  Paste the NPM \`docker-compose.yml\` content (from \[nginxproxymanager.com\](https://www.google.com/search?q=https://nginxproxymanager.com/setup/%23using-docker-compose)):  
-    \`\`\`yaml  
+    ````yaml  
     version: '3.8'  
     services:  
       app:  
@@ -281,7 +287,7 @@ systemctl enable docker
         volumes:  
           \- ./data:/data  
           \- ./letsencrypt:/etc/letsencrypt  
-    \`\`\`  
+    ````  
 6\.  Save and start NPM: \`docker compose up \-d\`
 
 ## ---
@@ -335,22 +341,4 @@ Forward ports 80 (HTTP) and 443 (HTTPS) from your router to NPM (192.168.1.222).
 
 ## ---
 
-**Important Final Checks and Considerations:**
-
-* **Laptop Power Settings:** Ensure lid closure doesn't suspend/hibernate.  
-* **Laptop Cooling:** Monitor temperatures.  
-* **Backups:** **Crucial\!** Use Proxmox VE's backup features for the VM and LXC. Also, explore Nextcloud AIO's backup options.  
-* **Security:** Keep everything updated. Use strong passwords. Consider pve-firewall.  
-* **Troubleshooting:** Check DNS propagation, firewalls (router, Proxmox, VM/LXC), NPM logs for SSL issues, and Nextcloud AIO logs/interface for trusted domain settings. The AIO mastercontainer logs can be checked with sudo docker logs nextcloud-aio-mastercontainer inside the VM.
-
-This updated guide now incorporates your docker-compose.yml for Nextcloud AIO and adjusts the Nginx Proxy Manager configuration accordingly. Good luck\!
-
-**Sources**  
-1\. [https://github.com/joshdsy/kubernetes](https://github.com/joshdsy/kubernetes)  
-2\. [https://github.com/zhaoolee/jikemiji](https://github.com/zhaoolee/jikemiji)  
-3\. [https://github.com/ChieftainY2k/raspberry-garda](https://github.com/ChieftainY2k/raspberry-garda)  
-4\. [https://www.vultr.com/docs/install-a-firefox-sync-server-on-debian-or-ubuntu/](https://www.vultr.com/docs/install-a-firefox-sync-server-on-debian-or-ubuntu/)  
-5\. [https://github.com/kumbulanit/CKA](https://github.com/kumbulanit/CKA)  
-6\. [https://github.com/Eg\_turlych/updater-turlych](https://github.com/Eg_turlych/updater-turlych)  
-7\. [https://github.com/zabbix/zabbix-docker/issues/1023](https://github.com/zabbix/zabbix-docker/issues/1023)  
-8\. [https://github.com/playstorepantech/scriptnotes](https://github.com/playstorepantech/scriptnotes)
+This updated guide now incorporates your docker-compose.yml for Nextcloud AIO and adjusts the Nginx Proxy Manager configuration accordingly.
