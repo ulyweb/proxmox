@@ -1,6 +1,6 @@
-Here's the updated full guide:
-
-## ---
+> [!NOTE]
+> # Here's the updated full guide:
+> ## ---
 
 **1\. Prepare Proxmox VE Installation Media**
 
