@@ -341,4 +341,4 @@ Forward ports 80 (HTTP) and 443 (HTTPS) from your router to NPM (192.168.1.222).
 
 ## ---
 
-This updated guide now incorporates your docker-compose.yml for Nextcloud AIO and adjusts the Nginx Proxy Manager configuration accordingly.
+This updated incorporates docker-compose.yml for Nextcloud AIO and adjusts the Nginx Proxy Manager configuration accordingly.
