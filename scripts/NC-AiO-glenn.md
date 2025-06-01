@@ -13,14 +13,17 @@ services:
     ports:
       - 8080:8080
     environment:
-      - APACHE_PORT=11000
-      - APACHE_IP_BINDING=0.0.0.0
-      - NEXTCLOUD_MEMORY_LIMIT=4096M # Adjust if needed based on monitoring
-      - FULLTEXTSEARCH_JAVA_OPTION="-Xms1024M -Xmx1024M"
-      - NEXTCLOUD_UPLOAD_LIMIT=1024G
-      - NEXTCLOUD_MAX_TIME=7200
-      - TALK_PORT=3478
-      - NEXTCLOUD_DATADIR=/mnt/nc_data # Optional
+      APACHE_PORT: 11000
+      APACHE_IP_BINDING: 0.0.0.0
+      NEXTCLOUD_MEMORY_LIMIT: 4096M # Adjust if needed based on monitoring
+      FULLTEXTSEARCH_JAVA_OPTION: "-Xms1024M -Xmx1024M"
+      NEXTCLOUD_UPLOAD_LIMIT: 1024G
+      NEXTCLOUD_MAX_TIME: 7200
+      NEXTCLOUD_ENABLE_DRI_DEVICE: TRUE
+      NEXTCLOUD_MAX_TIME: 7200
+      SKIP_DOMAIN_VALIDATION: false
+      TALK_PORT: 3478
+      NEXTCLOUD_DATADIR: /mnt/nc_data # Optional
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
