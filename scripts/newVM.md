@@ -1,6 +1,5 @@
 # Steps for new VM inside Proxmox
-
-localadmin@nucaio:~$ history
+````localadmin@nucaio:~$ history
     1  ip a
     2  reboot
     3  ip a
@@ -28,3 +27,4 @@ localadmin@nucaio:~$ history
    25  mkdir -p ~/nextcloud-aio && cd ~/nextcloud-aio
    26  nano compose.yaml
    27  docker compose up -d
+````
