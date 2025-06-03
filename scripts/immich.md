@@ -15,7 +15,7 @@ NODE_ENV=production
 
 DB_HOSTNAME=127.0.0.1
 DB_USERNAME=immich
-DB_PASSWORD=azeqajwyO5MyUJN4Xt
+DB_PASSWORD=immich-password-here
 DB_DATABASE_NAME=immich
 DB_VECTOR_EXTENSION=vectorchord
 
