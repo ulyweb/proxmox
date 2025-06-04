@@ -46,3 +46,8 @@ nano /etc/default/grub
 ````
 
 go down and find the line with Grub_cmdline_linux="consoleblank=300"
+
+
+````
+reboot
+````
