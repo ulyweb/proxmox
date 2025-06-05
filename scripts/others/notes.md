@@ -1,10 +1,6 @@
 #### https://github.com/TechHutTV/homelab/blob/main/cloud/README.md?plain=1
 
-# Self-Host the Cloud!
-Ditching services like Google Workspace, Dropbox, iCloud, Microsoft 365, Amazon Photos, and other cloud service provides is critical...
-
-## Nextcloud
-Work in progress.
+## Nextcloud Notes
 
 ### NGINX Proxy Manager
 Under details set the scheme to http, your local IP for the server, and the port 11000 then enable Block Common Exploits and Websocket Support under details. Under SSL enable Force SSL and HTTP/2 support. Under advanced add the following lines.
