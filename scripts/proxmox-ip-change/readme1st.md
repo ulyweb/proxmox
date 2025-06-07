@@ -1,4 +1,5 @@
-Of course. Here is a comprehensive bash script that automates the process of changing your Proxmox server's IP address.
+>[!NOTE]
+>Bash script that automates the process of changing your Proxmox server's IP address.
 
 This script will:
 * Prompt you for the new IP address (with CIDR) and the new gateway.
