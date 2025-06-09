@@ -268,6 +268,25 @@ dpkg -r proxmox-admin-user-tool
 ---
 
 >[!TIP]
-> Here's all of the commands
+> ### ✅ Installation Instructions on Proxmox VE
+
+1. **Transfer the `.deb` file to your Proxmox server** (if not already there):
+
+   ```bash
+   scp proxmox-admin-user-tool-1.0.deb root@your-proxmox-ip:/root/
+   ```
+
+2. **Install the package:**
+
+   ```bash
+   dpkg -i proxmox-admin-user-tool-1.0.deb
+   ```
+
+3. **Run the TUI admin user creation tool:**
+
+   ```bash
+   sudo pve-create-admin-user
+   ```
 
 ---
+
