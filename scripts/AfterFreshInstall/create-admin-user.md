@@ -1,10 +1,10 @@
-> [!NOTE]
+>[!NOTE]
 > TUI-style Bash script** inspired by the Proxmox VE Helper-Scripts format. It will:
 
-✅ Create a PAM user
-✅ Set the user’s password
-✅ Add the user to `sudo` (optional)
-✅ Assign `Administrator` permissions in Proxmox
+✅ Create a PAM user \
+✅ Set the user’s password \
+✅ Add the user to `sudo` (optional) \
+✅ Assign `Administrator` permissions in Proxmox \
 ✅ Optionally enable SSH access
 
 This is a fully self-contained script you can run directly on your Proxmox VE host (as `root`):
@@ -161,4 +161,113 @@ Once the user is created and tested, consider **disabling root login via SSH** (
 
 ---
 
-Would you like to turn this into a reusable `.deb` installer package or a Proxmox addon later?
+>[!NOTE]
+> ### Let’s turn your Proxmox admin user creation script into a reusable `.deb` installer package.
+> #### This will allow you to install it cleanly on any of your Proxmox VE nodes using:
+
+---
+
+## ✅ Final Result
+
+This `.deb` package will:
+
+* Install the TUI script at `/usr/local/sbin/pve-create-admin-user`
+* Make it executable system-wide
+* Provide metadata so it’s cleanly listed and removable
+
+---
+
+## ✅ Step-by-Step: Build `.deb` Package
+
+We'll set up the Debian packaging structure first.
+
+### 1. 📁 Create Folder Structure
+
+```bash
+mkdir -p proxmox-admin-user-tool-1.0/usr/local/sbin
+mkdir -p proxmox-admin-user-tool-1.0/DEBIAN
+```
+
+---
+
+### 2. 📝 Place the Script
+
+Create the script at:
+
+```bash
+nano proxmox-admin-user-tool-1.0/usr/local/sbin/pve-create-admin-user
+```
+
+Paste the full TUI script from earlier into that file, and make it executable:
+
+```bash
+chmod +x proxmox-admin-user-tool-1.0/usr/local/sbin/pve-create-admin-user
+```
+
+---
+
+### 3. 📝 Create `control` File
+
+Create the Debian metadata file:
+
+```bash
+nano proxmox-admin-user-tool-1.0/DEBIAN/control
+```
+
+Paste:
+
+```plaintext
+Package: proxmox-admin-user-tool
+Version: 1.0
+Section: admin
+Priority: optional
+Architecture: all
+Maintainer: Your Name <you@example.com>
+Description: TUI tool to create and manage Proxmox admin users
+ A menu-driven helper to replicate root user access for new PAM users in Proxmox VE.
+```
+
+---
+
+### 4. 📦 Build the Package
+
+Now build the `.deb` package:
+
+```bash
+dpkg-deb --build proxmox-admin-user-tool-1.0
+```
+
+This will output:
+
+```bash
+proxmox-admin-user-tool-1.0.deb
+```
+
+---
+
+## ✅ Usage
+
+### 🛠️ To Install:
+
+```bash
+dpkg -i proxmox-admin-user-tool-1.0.deb
+```
+
+### 🧰 To Run the Tool:
+
+```bash
+sudo pve-create-admin-user
+```
+
+### 🧼 To Remove Later:
+
+```bash
+dpkg -r proxmox-admin-user-tool
+```
+
+---
+
+>[!TIP]
+> Here's all of the commands
+
+---
