@@ -1,4 +1,5 @@
-Great! Here's a **menu-driven, TUI-style Bash script** inspired by the Proxmox VE Helper-Scripts format. It will:
+> [!NOTE]
+> TUI-style Bash script** inspired by the Proxmox VE Helper-Scripts format. It will:
 
 ✅ Create a PAM user
 ✅ Set the user’s password
