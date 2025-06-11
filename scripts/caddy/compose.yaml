@@ -1,0 +1,71 @@
+services:
+  nextcloud-aio-mastercontainer:
+    image: ghcr.io/nextcloud-releases/all-in-one:latest
+    init: true
+    restart: always
+    container_name: nextcloud-aio-mastercontainer
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    network_mode: bridge
+    ports:
+      # - 80:80
+      - 8080:8080
+      # - 8443:8443
+    environment:
+      # AIO_DISABLE_BACKUP_SECTION: false
+      APACHE_PORT: 11000
+      APACHE_IP_BINDING: 127.0.0.1
+      # APACHE_ADDITIONAL_NETWORK: frontend_net
+      # BORG_RETENTION_POLICY: --keep-within=7d --keep-weekly=4 --keep-monthly=6
+      # COLLABORA_SECCOMP_DISABLED: false #
+      # FULLTEXTSEARCH_JAVA_OPTIONS: "-Xms1024M -Xmx1024M"
+      NEXTCLOUD_DATADIR: /mnt/ncdata
+      # NEXTCLOUD_MOUNT: /mnt/
+      NEXTCLOUD_UPLOAD_LIMIT: 16G
+      NEXTCLOUD_MAX_TIME: 3600
+      NEXTCLOUD_MEMORY_LIMIT: 4196M
+      # NEXTCLOUD_TRUSTED_CACERTS_DIR: /path/to/my/cacerts
+      # NEXTCLOUD_STARTUP_APPS: deck twofactor_totp tasks calendar contacts notes
+      # NEXTCLOUD_ADDITIONAL_APKS: imagemagick
+      # NEXTCLOUD_ADDITIONAL_PHP_EXTENSIONS: imagick
+      # NEXTCLOUD_ENABLE_DRI_DEVICE: true
+      # NEXTCLOUD_ENABLE_NVIDIA_GPU: true
+      # NEXTCLOUD_KEEP_DISABLED_APPS: false
+      SKIP_DOMAIN_VALIDATION: true
+      TALK_PORT: 3478
+      # WATCHTOWER_DOCKER_SOCKET_PATH: /var/run/docker.sock
+    # security_opt: ["label:disable"]
+
+#   # Optional: Caddy reverse proxy. See https://github.com/nextcloud/all-in-one/discussions/575
+#   # Alternatively, use Tailscale if you don't have a domain yet. See https://github.com/nextcloud/all-in-one/discussions/5439
+#   # Hint: You need to uncomment APACHE_PORT: 11000 above, adjust cloud.example.com to your domain and uncomment the necessary docker volumes at the bottom of this file in order to make it work
+#   # You can find further examples here: https://github.com/nextcloud/all-in-one/discussions/588
+#   caddy:
+#     image: caddy:alpine
+#     restart: always
+#     container_name: caddy
+#     volumes:
+#       - caddy_certs:/certs
+#       - caddy_config:/config
+#       - caddy_data:/data
+#       - caddy_sites:/srv
+#     network_mode: "host"
+#     configs:
+#       - source: Caddyfile
+#         target: /etc/caddy/Caddyfile
+# configs:
+#   Caddyfile:
+#     content: |
+#       # Adjust cloud.example.com to your domain below
+#       https://cloud.example.com:443 {
+#         reverse_proxy localhost:11000
+#       }
+
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
+  # caddy_certs:
+  # caddy_config:
+  # caddy_data:
+  # caddy_sites:
