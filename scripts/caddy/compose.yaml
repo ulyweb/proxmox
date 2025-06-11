@@ -70,3 +70,4 @@ volumes:
   caddy_config:
   caddy_data:
   caddy_sites:
+# check this URL: https://travis.media/blog/nextcloud-aio-locally-no-domain/
