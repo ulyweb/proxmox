@@ -1,1 +1,73 @@
-1
+services:
+  nextcloud-aio-mastercontainer:
+    image: ghcr.io/nextcloud-releases/all-in-one:latest
+    init: true
+    restart: always
+    container_name: nextcloud-aio-mastercontainer
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 8080:8080
+    environment:
+      APACHE_PORT: 11000
+      APACHE_IP_BINDING: 0.0.0.0
+      SKIP_DOMAIN_VALIDATION: "true"
+      NEXTCLOUD_DATADIR: /mnt/ncdata
+      NEXTCLOUD_UPLOAD_LIMIT: 16G
+      NEXTCLOUD_MAX_TIME: 3600
+      NEXTCLOUD_MEMORY_LIMIT: 4196M
+      TALK_PORT: 3478
+    networks:
+      - nextcloud-network
+
+  caddy:
+    image: caddy:alpine
+    restart: always
+    container_name: caddy
+    hostname: caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      - ACME_AGREE=true
+    networks:
+      - nextcloud-network
+    depends_on:
+      - nextcloud-aio-mastercontainer
+
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    hostname: pihole
+    restart: always
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8053:80/tcp" # Pi-hole web interface
+    environment:
+      TZ: 'America/Los_Angeles' # Change to your timezone
+      WEBPASSWORD: 'your_pihole_password' # Change this password
+      PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
+    volumes:
+      - ./etc-pihole:/etc/pihole
+      - ./etc-dnsmasq.d:/etc/dnsmasq.d
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - nextcloud-network
+
+networks:
+  nextcloud-network:
+    driver: bridge
+
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
+  caddy_data:
+  caddy_config:
