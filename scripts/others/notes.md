@@ -43,3 +43,13 @@ sudo groupadd docker
 sudo usermod -aG docker $USER
 newgrp docker
 ```
+
+You can check out the “convenience script” for one of the easiest ways to install it on your system. Once that’s done, any future updates will also be available through apt. Here are the commands to install using the script:
+```bash
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+```
+Regardless of how you install Docker on Ubuntu, the Docker systemd service will automatically start and enable. So, Docker will start automatically if the system is ever rebooted. You can check to see if it is running with the following command:
+```bash
+sudo systemctl status docker
+```
