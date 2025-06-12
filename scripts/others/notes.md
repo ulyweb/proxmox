@@ -32,3 +32,14 @@ sudo docker exec --user www-data -it nextcloud-aio-nextcloud php occ files:scan 
 ```
 docker exec nextcloud-aio-mastercontainer grep password /mnt/docker-aio-config/data/configuration.json
 ```
+
+### Manage Docker as a non-root user
+
+One step in the Linux post-installation steps is to manage Docker as a non-root user. To do this, you can add your user account to the docker group. This allows you to run Docker commands without using sudo them every time. However, it is important to note that adding a user to the docker group grants them significant privileges, as Docker allows direct access to the host system. Therefore, exercise caution when granting Docker access to non-root users, as it can potentially lead to security vulnerabilities if not properly managed and monitored.
+
+If you want to do this, run the following commands:
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+```
