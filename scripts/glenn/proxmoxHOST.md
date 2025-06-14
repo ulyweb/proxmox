@@ -16,7 +16,7 @@ systemctl restart systemd-logind.service
 nano /etc/default/grub
 reboot
 
-Twingate look for you ncaio notepad
+Twingate look for your ncaio notepad
 
 apt upgrade -y
 whoami
