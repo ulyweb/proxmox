@@ -8,8 +8,8 @@
 #                                                                     #
 # Inspired by the Proxmox VE Helper-Scripts TUI.                        #
 #                                                                     #
-# Version: 1.0                                                        #
-# Date: 2025-06-08                                                    #
+# Version: 1.1 (Updated with direct Nextcloud compose file)           #
+# Date: 2025-06-14                                                    #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # --- Color Definitions for a nicer UI ---
@@ -58,7 +58,7 @@ show_menu() {
     echo -e "This script should be run inside your new VM."
     echo -e "---------------------------------------------"
     echo -e " ${YELLOW}1)${NC} Install Docker & Configure User"
-    echo -e " ${YELLOW}2)${NC} Prepare Directories for Nextcloud AIO"
+    echo -e " ${YELLOW}2)${NC} Download & Prepare Nextcloud Compose"
     echo -e " ${YELLOW}3)${NC} Download & Prepare Immich Docker Compose"
     echo -e "---------------------------------------------"
     echo -e " ${YELLOW}4)${NC} Run ALL Setup Steps (1, 2, and 3)"
@@ -104,34 +104,38 @@ install_docker() {
     read -p "Press Enter to return to the menu..."
 }
 
-# --- Function to Prepare for Nextcloud AIO ---
-# This function creates the directory structure required for a Nextcloud setup.
-# 1. Creates `/mnt/ncdata`, a common location for persistent container data
-#    to live outside the main OS partition.
-# 2. Creates a `nextcloud-aio` directory in the user's home folder, which is
-#    the standard place to manage Nextcloud AIO files.
-# 3. Sets the correct ownership for the directory in the user's home.
+# --- Function to Prepare for Nextcloud ---
+# This function prepares the environment for Nextcloud.
+# 1. Creates `/mnt/ncdata` for persistent data storage.
+# 2. Creates `/home/$USER/nextcloud-aio/` for configuration.
+# 3. Downloads a pre-configured `compose.yaml` file into the directory.
+# 4. Sets the correct ownership of the files.
 prepare_nextcloud() {
     clear
-    echo -e "${CYAN}--- 2. Preparing Directories for Nextcloud AIO ---${NC}"
-    echo -e "This will create the following directories:"
-    echo -e "  - /mnt/ncdata (for persistent data)"
-    echo -e "  - /home/${TARGET_USER}/nextcloud-aio (for management)"
+    echo -e "${CYAN}--- 2. Downloading & Preparing Nextcloud ---${NC}"
+    echo -e "This will create directories and download the 'compose.yaml' file."
+    echo -e "  - Directories: /mnt/ncdata, /home/${TARGET_USER}/nextcloud-aio/"
     echo -e "---------------------------------------------------------"
     read -p "Press Enter to continue..."
+
+    NEXTCLOUD_DIR="/home/${TARGET_USER}/nextcloud-aio"
 
     echo -e "\n${BLUE}Creating /mnt/ncdata...${NC}"
     mkdir -p /mnt/ncdata
 
-    echo -e "${BLUE}Creating /home/${TARGET_USER}/nextcloud-aio/...${NC}"
-    mkdir -p "/home/${TARGET_USER}/nextcloud-aio/"
-    chown -R "${TARGET_USER}:${TARGET_USER}" "/home/${TARGET_USER}/nextcloud-aio/"
+    echo -e "${BLUE}Creating ${NEXTCLOUD_DIR}...${NC}"
+    mkdir -p "${NEXTCLOUD_DIR}"
+    
+    cd "${NEXTCLOUD_DIR}"
 
+    echo -e "${BLUE}Downloading compose.yaml for Nextcloud...${NC}"
+    wget -O compose.yaml https://github.com/ulyweb/proxmox/releases/download/glenn-v1.0.0/compose.yaml
 
-    echo -e "\n${GREEN}Success! Nextcloud directories created.${NC}"
-    echo -e "\n${YELLOW}Next Step: Please run the official Nextcloud AIO 'docker run' command."
-    echo -e "You can find the latest command here:"
-    echo -e "${CYAN}https://github.com/nextcloud/all-in-one#how-to-use-it${NC}"
+    echo -e "${BLUE}Setting ownership of Nextcloud files to user '${TARGET_USER}'...${NC}"
+    chown -R "${TARGET_USER}:${TARGET_USER}" "${NEXTCLOUD_DIR}"
+
+    echo -e "\n${GREEN}Success! Nextcloud files are ready in ${NEXTCLOUD_DIR}.${NC}"
+    echo -e "${YELLOW}Next Step: 'cd ${NEXTCLOUD_DIR}' and run 'docker compose up -d' to start Nextcloud.${NC}"
     read -p "Press Enter to return to the menu..."
 }
 
@@ -140,8 +144,7 @@ prepare_nextcloud() {
 # 1. Creates an `immich-app` directory in the user's home folder.
 # 2. Navigates into that directory.
 # 3. Downloads the latest `docker-compose.yml` and `example.env` files from
-#    the official Immich GitHub repository releases. Using the '/latest/' URL
-#    ensures you always get the most recent stable configuration.
+#    the official Immich GitHub repository releases.
 prepare_immich() {
     clear
     echo -e "${CYAN}--- 3. Downloading & Preparing Immich ---${NC}"
