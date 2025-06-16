@@ -9,6 +9,11 @@
 # networks, and images. This is intended to fix deep-seated issues but
 # will affect other Docker projects if they are not currently running.
 
+# This this file called reset_nextcloud.sh
+# /home/USER/reset_nextcloud.sh
+# make sure you also made it executeable 
+# sudo chmod +x ./reset_nextcloud.sh
+
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
