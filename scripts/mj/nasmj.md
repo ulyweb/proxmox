@@ -74,7 +74,7 @@ volumes: # If you want to store the data on a different drive, see https://githu
   # caddy_sites:
 ```
 
-
+### or direct setup without Proxy
 
 >[!NOTE]
 >To set up port forwarding on your AT&T BGW320-505 router for Nextcloud AIO with DuckDNS, follow these steps:
