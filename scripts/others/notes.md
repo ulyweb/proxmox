@@ -77,3 +77,8 @@ https://travis.media/blog/nextcloud-aio-locally-no-domain/
 ```bash
 https://www.hanssonit.se/nextcloud-vm/
 ```
+
+#### Guide for AIO on Linux
+```bash
+https://nextcloud.com/blog/how-to-install-the-nextcloud-all-in-one-on-linux/
+```
