@@ -72,3 +72,8 @@ https://wiki.opensourceisawesome.com/books/nextcloud-all-in-one/page/install-and
 ```bash
 https://travis.media/blog/nextcloud-aio-locally-no-domain/
 ```
+
+#### Hansson IT - Nextcloud VM
+```bash
+https://www.hanssonit.se/nextcloud-vm/
+```
