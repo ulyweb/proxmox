@@ -74,3 +74,90 @@ volumes: # If you want to store the data on a different drive, see https://githu
   # caddy_sites:
 ```
 
+
+
+>[!NOTE]
+>To set up port forwarding on your AT&T BGW320-505 router for Nextcloud AIO with DuckDNS, follow these steps:
+
+---
+
+## **Step 1: Configure Port Forwarding on AT&T Router**
+1. **Log into your router**:
+   - Go to `http://192.168.1.254` in your browser.
+   - Enter the **Device Access Code** (found on the router’s label).
+
+2. **Create custom port forwarding rules**:
+   - Navigate to **Firewall > NAT/Gaming**.
+   - For each port below, create a **Custom Service**:
+     | Service Name      | Global Port Range | Protocol | Host Port | Host IP Address    |
+     |-------------------|-------------------|----------|-----------|--------------------|
+     | Nextcloud_HTTP    | 80-80             | TCP      | 80        | 192.168.1.60      |
+     | Nextcloud_HTTPS   | 443-443           | TCP      | 443       | 192.168.1.60      |
+     | Nextcloud_Stun    | 3478-3478         | TCP/UDP  | 3478      | 192.168.1.60      |
+     | Nextcloud_AIO     | 8443-8443         | TCP      | 8443      | 192.168.1.60      |
+
+   - Save each rule and ensure they appear in the "Active NAT/Gaming Rules" list[1][2].
+
+---
+
+## **Step 2: Verify DuckDNS Configuration**
+1. **Update DuckDNS record**:
+   - Ensure `nasmj.duckdns.org` points to your public IP (check via `curl -4 icanhazip.com`).
+   - Use DuckDNS’s update script or web interface to refresh the IP if needed[4].
+
+---
+
+## **Step 3: Run Nextcloud AIO Docker Command**
+Use this command for Linux (adjust for ARM64 if using Raspberry Pi):
+```bash
+sudo docker run \
+--sig-proxy=false \
+--name nextcloud-aio-mastercontainer \
+--restart always \
+--publish 80:80 \
+--publish 8080:8080 \
+--publish 8443:8443 \
+--volume nextcloud_aio_mastercontainer:/mnt/docker-aio-config \
+--volume /var/run/docker.sock:/var/run/docker.sock:ro \
+ghcr.io/nextcloud-releases/all-in-one:latest
+```
+
+---
+
+## **Step 4: Complete Nextcloud Setup**
+1. **Access the AIO interface**:
+   - Open `https://192.168.1.60:8443` (local) or `https://nasmj.duckdns.org:8443` (external).
+   - Follow the prompts to configure your domain and SSL certificate.
+
+2. **Verify port accessibility**:
+   - Use `https://portchecker.co` to confirm ports 80, 443, 3478, and 8443 are open[5][2].
+
+---
+
+## **Troubleshooting Tips**
+- **Firewall**: Ensure Windows Defender/other firewalls allow inbound traffic for the ports listed above[5].
+- **Router Reboot**: Restart the AT&T router after configuring port forwarding.
+- **SSL Errors**: If certificates fail, manually renew via `sudo docker exec -it nextcloud-aio-mastercontainer /bin/bash -c "apk add curl && certbot renew"`[4].
+
+Once complete, your Nextcloud AIO instance will be accessible at `https://nasmj.duckdns.org`!
+
+[1] https://www.youtube.com/watch?v=Fbb5T9VWFZ8
+[2] https://www.reddit.com/r/PleX/comments/suugzn/port_forwarding_att_fiber_nightmare_bgw320505_how/
+[3] https://github.com/andrewglass3/nextcloud-all-in-one
+[4] https://github.com/nextcloud/all-in-one/discussions/612
+[5] https://www.reddit.com/r/NextCloud/comments/1fo4qtw/nextcloud_aiodocker_desktopduckdns_install_issues/
+[6] https://community.getchannels.com/t/anyone-know-how-to-configure-an-att-bgw320/35314
+[7] https://www.youtube.com/watch?v=jI_4fhSwgYw
+[8] https://wifi-helpcenter.nokia.com/hc/en-us/articles/360053881073-How-to-forward-a-range-of-ports
+[9] https://community.roonlabs.com/t/roon-arc-at-t-nokia-bgw320-505-orbi-rbre-960/253501
+[10] https://answers.microsoft.com/en-us/xbox/forum/all/trying-to-get-nat-type-open-for-two-xboxes/eb7c64b8-9c90-4205-8590-d2f6204b684f
+[11] https://community.ui.com/questions/BGW320-500-Bridge-Mode-and-or-IP-Passthrough-Question/99786f13-1f76-46dd-9801-7102fd1d44d7
+[12] https://help.nextcloud.com/t/windows-11-install-w-docker-account-setup/179439
+[13] https://www.reddit.com/r/NextCloud/comments/1ja3edn/trying_to_install_nextcloud_using_the_aio/
+[14] https://documentation.dotrepo.duckdns.org/blog/nextclould-readme
+[15] https://forum.openmediavault.org/index.php?thread%2F54716-nextcloud-aio-behind-cgnat%2F
+[16] https://forum.gl-inet.com/t/setting-up-port-forwarding-for-at-t-isp-bgw320-500-router-modem/50985
+[17] https://documentation.nokia.com/html/3HE19010AAACTQZZA/User_Guide/ai8ha35pab.html
+[18] https://help.nextcloud.com/t/nextcloud-aio-setup-problem/141805?page=3
+[19] https://forum.openmediavault.org/index.php?thread%2F53702-nextcloud-aio-install-help%2F
+[20] https://github.com/nextcloud/all-in-one/discussions/4333
