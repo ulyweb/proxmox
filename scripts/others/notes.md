@@ -53,3 +53,22 @@ Regardless of how you install Docker on Ubuntu, the Docker systemd service will 
 ```bash
 sudo systemctl status docker
 ```
+
+
+### Other URL to check for setting up Nextcloud AiO
+
+#### from rajuv.dev
+```bash
+https://raju.dev/nextcloud-aio-install-with-docker-compose-and-reverse-proxy/
+```
+
+#### from Open Source 
+```bash
+https://wiki.opensourceisawesome.com/books/nextcloud-all-in-one/page/install-and-setup-nextcloud-all-in-one-aio
+```
+```
+
+#### Travis Media
+```bash
+https://travis.media/blog/nextcloud-aio-locally-no-domain/
+```
