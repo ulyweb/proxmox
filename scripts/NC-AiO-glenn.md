@@ -22,11 +22,11 @@ services:
       NEXTCLOUD_MAX_TIME: 7200
       SKIP_DOMAIN_VALIDATION: true
       TALK_PORT: 3478
-      NEXTCLOUD_DATADIR: /mnt/nc_data # Optional
+      NEXTCLOUD_DATADIR: /mnt/ncdata # Optional
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-      - /mnt/nc_data:/mnt/nc_data # Optional
+      - /mnt/ncdata:/mnt/ncdata # Optional
 
 volumes:
   nextcloud_aio_mastercontainer:
