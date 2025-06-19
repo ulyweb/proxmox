@@ -20,7 +20,7 @@ services:
       NEXTCLOUD_UPLOAD_LIMIT: 1024G
       # NEXTCLOUD_ENABLE_DRI_DEVICE: TRUE
       NEXTCLOUD_MAX_TIME: 7200
-      SKIP_DOMAIN_VALIDATION: false
+      SKIP_DOMAIN_VALIDATION: true
       TALK_PORT: 3478
       NEXTCLOUD_DATADIR: /mnt/nc_data # Optional
     volumes:
