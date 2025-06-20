@@ -130,8 +130,8 @@ ghcr.io/nextcloud-releases/all-in-one:latest
    - Follow the prompts to configure your domain and SSL certificate.
 
 2. **Verify port accessibility**:
-   - Use `https://portchecker.co` to confirm ports 80, 443, 3478, and 8443 are open.
-   - Use `https://www.yougetsignal.com/tools/open-ports/` to confirm ports 80, 443, 3478, and 8443 are open.
+   - Use ````https://portchecker.co```` to confirm ports 80, 443, 3478, and 8443 are open.
+   - Use ````https://www.yougetsignal.com/tools/open-ports/```` to confirm ports 80, 443, 3478, and 8443 are open.
 ---
 
 ## **Troubleshooting Tips**
