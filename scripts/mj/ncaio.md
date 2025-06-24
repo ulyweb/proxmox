@@ -35,7 +35,7 @@ services:
     container_name: nextcloud-aio-mastercontainer
     restart: always
     environment:
-      - SKIP_DOMAIN_VALIDATION=true
+      # - SKIP_DOMAIN_VALIDATION=true
     ports:
       - "80:80"
       - "8080:8080"
@@ -43,9 +43,11 @@ services:
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/ncdata:/mnt/ncdata   # Mounts host's /mnt/ncdata to /mnt/ncdata in container
 
 volumes:
   nextcloud_aio_mastercontainer:
+
 ```
 
 ---
