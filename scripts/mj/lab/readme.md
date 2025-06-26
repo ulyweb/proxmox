@@ -55,7 +55,7 @@ get_user_config() {
     exit_status=$?
     if [ $exit_status -ne 0 ]; then exit 1; fi # User cancelled
 
-    NEXTCLOUD_SUBDOMAIN=$(whiptail --inputbox "Enter Nextcloud Subdomain (e.g., nasmj.duckdns.org):" 10 60 "$NEXTCLOUD_SUBDOMAIN" 3>&1 1>&2 2>&3)
+    NEXTCLOUD_SUBDOMAIN=$(whiptail --inputbox "Enter Nextcloud Subdomain (e.g., subdomain.duckdns.org):" 10 60 "$NEXTCLOUD_SUBDOMAIN" 3>&1 1>&2 2>&3)
     exit_status=$?
     if [ $exit_status -ne 0 ]; then exit 1; fi # User cancelled
 
