@@ -63,6 +63,6 @@ sudo nano /etc/hosts
 ```
 
 add 
-192.168.1.60 nasmj.duckdns.org
+192.168.1.60 subdomain-HERE.duckdns.org
 
 
