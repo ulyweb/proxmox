@@ -1,7 +1,7 @@
 You can automate this by running the following one-liner command in your terminal:
 
 ```bash
-curl -s https://example.com/custom-prompt.sh | bash
+curl -s https://github.com/ulyweb/proxmox/releases/download/myproxmox-v1.0.0/custom-prompt.sh | bash
 ```
 
 Create a script named `custom-prompt.sh` with the following content and host it on a web server you control:
