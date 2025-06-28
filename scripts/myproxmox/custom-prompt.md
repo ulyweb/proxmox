@@ -85,5 +85,7 @@ Here is what you should add exactly to `~/.bashrc`:
 PROMPT_COMMAND='PS1="\[\e[1;33m\]$(date +"%F %T")\[\e[0m\]\n\[\e[1;32m\]\w | \u\[\e[0m\] "'
 ```
 
-Then, every new shell session (including after reboot) will evaluate it and set the prompt dynamically. Make sure not to expand `$(date ...)` while writing to the file, or else it will insert a static date/time. Let me know if you want me to craft the precise `echo` command to append this safely!
+***Then, every new shell session (including after reboot) will evaluate it and set the prompt dynamically. Make sure not to expand `$(date ...)` while writing to the file, or else it will insert a static date/time. Let me know if you want me to craft the precise `echo` command to append this safely!***
+
+
 ---
