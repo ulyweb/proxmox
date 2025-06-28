@@ -60,3 +60,14 @@ source ~/.bashrc
 ```
 
 Liquidprompt provides a clean, informative prompt with context-aware details like hostname, load, git info, and more — ideal for a Proxmox host environment.
+
+---
+
+Sure — here’s a one-liner command to set up Liquidprompt on your Proxmox host:
+
+```bash
+apt update && apt install git -y && git clone https://github.com/nojhan/liquidprompt.git ~/.liquidprompt && echo -e '\nif [ -f "$HOME/.liquidprompt/liquidprompt" ]; then\n    source "$HOME/.liquidprompt/liquidprompt"\nfi' >> ~/.bashrc && source ~/.bashrc
+```
+
+Run this in your terminal — it will install Git, clone Liquidprompt, update your `~/.bashrc`, and reload your shell environment.
+
