@@ -30,3 +30,33 @@ echo 'eval "$(starship init bash)"' >> ~/.bashrc
 ```
 
 Then create a `~/.config/starship.toml` with fine-tuned configuration. I can prepare a complete Starship configuration for you, including load averages, memory, git info, and elegant styling. Let me know if you want me to generate that config file for you!
+
+---
+
+Got it — since you're working directly on a Proxmox host (which generally uses bash by default), the safest and most robust professional-grade option is to use **Liquidprompt**, which is lightweight, compatible with bash, and designed for administrators managing servers.
+
+Here’s how to set it up:
+
+1️⃣ Install dependencies:
+```bash
+apt update && apt install git -y
+```
+
+2️⃣ Clone Liquidprompt:
+```bash
+git clone https://github.com/nojhan/liquidprompt.git ~/.liquidprompt
+```
+
+3️⃣ Add to your `~/.bashrc`:
+```bash
+if [ -f "$HOME/.liquidprompt/liquidprompt" ]; then
+    source "$HOME/.liquidprompt/liquidprompt"
+fi
+```
+
+4️⃣ Reload:
+```bash
+source ~/.bashrc
+```
+
+Liquidprompt provides a clean, informative prompt with context-aware details like hostname, load, git info, and more — ideal for a Proxmox host environment.
