@@ -17,3 +17,16 @@ source ~/.bashrc
 ```
 
 This way, you only run one command to set it up on any server.
+
+
+---
+
+Run this to install Starship and set it up:
+
+```bash
+curl -sS https://starship.rs/install.sh | sh
+
+echo 'eval "$(starship init bash)"' >> ~/.bashrc
+```
+
+Then create a `~/.config/starship.toml` with fine-tuned configuration. I can prepare a complete Starship configuration for you, including load averages, memory, git info, and elegant styling. Let me know if you want me to generate that config file for you!
